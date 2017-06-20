@@ -12,7 +12,7 @@ Run API application by utilizing [forever](https://www.npmjs.com/package/forever
 sudo forever index.js
 ```
 
-API os open, happy fridge snapping!
+API is now open, happy fridge snapping!
 
 ---
 :blue_heart::blue_heart::blue_heart: With all the love from [BUSY](https://github.com/BUSYcph) :blue_heart::blue_heart::blue_heart:
