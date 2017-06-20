@@ -19,5 +19,9 @@
   "dependencies": {
     "connect": "^3.6.2",
     "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-plugin-node": "^5.0.0"
   }
 }
