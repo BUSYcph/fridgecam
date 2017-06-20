@@ -1,0 +1,23 @@
+{
+  "name": "fridgecam",
+  "version": "1.0.0",
+  "description": "Raspberry Pi API for our fridge cam at the garage Edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BUSYcph/fridgecam.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BUSYcph/fridgecam/issues"
+  },
+  "homepage": "https://github.com/BUSYcph/fridgecam#readme",
+  "dependencies": {
+    "connect": "^3.6.2",
+    "express": "^4.15.3"
+  }
+}
