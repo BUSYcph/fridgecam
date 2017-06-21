@@ -2,6 +2,14 @@
 
 Raspberry Pi API for our fridge cam at the garage
 
+## Developing
+
+Use docker. Just clone in and go:
+
+```
+docker-compose up
+```
+
 ## Taking it for a spin
 
 Deploy it to device.
