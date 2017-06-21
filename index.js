@@ -1,8 +1,16 @@
 const express = require('express')
 const app = express()
+const Raspistill = require('node-raspistill').Raspistill
+const camera = new Raspistill({
+    verticalFlip: true,
+    width: 800,
+    height: 600
+})
 
 app.get('/snap', (req, res) => {
-  res.status(200).send('yay')
+  camera.takePhoto().then((photo) => {
+    console.log(photo)
+  })
 })
 
 app.get('*', (req, res) => {
