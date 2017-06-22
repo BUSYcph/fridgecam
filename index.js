@@ -22,7 +22,7 @@ admin.initializeApp({
 app.get('/snap', (req, res) => {
   camera.takePhoto().then((photo) => {
     const db = admin.database;
-    const ref = db.ref('server/saving-data/fridgecam');
+    const ref = db.ref('/');
     
     //const storage = admin.storage();
     //const storageRef = storage.ref();
