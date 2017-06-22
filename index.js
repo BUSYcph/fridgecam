@@ -24,19 +24,19 @@ app.get('/snap', (req, res) => {
     const db = admin.database();
     const ref = db.ref('/');
     
-    //const storage = admin.storage();
-    //const storageRef = storage.ref();
+    const storage = admin.storage();
+    const storageRef = storage.ref('/');
 
     const snapsRef = ref.child('snaps');
 
-    photo = photo.toString('base64');
-
-    snapsRef.push({
-      snapper: "Brian Frisch",
-      time: Date.now(),
-      image: photo
-    }).then(() => {
-      res.status(200).send('<img src="'+photo+'">');
+    storageRef.put(photo).then(function(snapshot) {
+      snapsRef.push({
+        snapper: "Brian Frisch",
+        time: Date.now(),
+        image: snapshot.downloadURL
+      }).then(() => {
+        res.status(200).send('<img src="'+photo+'">');
+      });
     });
   })
 });
