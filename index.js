@@ -21,7 +21,7 @@ admin.initializeApp({
 
 app.get('/snap', (req, res) => {
   camera.takePhoto().then((photo) => {
-    const db = admin.database;
+    const db = admin.database();
     const ref = db.ref('/');
     
     //const storage = admin.storage();
