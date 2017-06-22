@@ -8,3 +8,7 @@
 # misc
 npm-debug.log
 .DS_Store
+
+# config
+.env
+service-account-key.json
