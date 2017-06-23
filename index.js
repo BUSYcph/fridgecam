@@ -1,6 +1,6 @@
 'use strict'
 
-require('dotenv').config()
+require('dotenv').config();
 
 const gcloud = require('google-cloud');
 const admin = require('firebase-admin');
@@ -10,7 +10,7 @@ const fs = require('fs');
 
 let camera;
 
-if (process.env.APP_DEBUG !== true) {
+if (process.env.APP_DEBUG !== 'true') {
   const Raspistill = require('node-raspistill').Raspistill;
   camera = new Raspistill({
       verticalFlip: true,
@@ -18,6 +18,8 @@ if (process.env.APP_DEBUG !== true) {
       height: 600
   });
 }else{
+  // when we're developing locally, we probably don't have a raspicam, so we'll just 
+  // do a mock of it with a static image
   camera = {
     takePhoto : () => {
       return new Promise( (resolve, reject) => {
@@ -43,21 +45,18 @@ admin.initializeApp({
 app.get('/snap', (req, res) => {
   camera.takePhoto().then((photo) => {
     let filename = 'fridge-shot-' + Date.now() + '.jpg';
-    const db = admin.database();
-    const ref = db.ref('/');
 
     const storage = gcloud.storage({
-        projectId: 'fridgecam-d029f',
-        keyFilename: './service-account-key.json',
+        projectId: process.env.PROJECT_ID,
+        keyFilename: process.env.FIREBASE_SERVICE_ACCOUNT_KEY_PATH,
     });
 
-    const bucket = storage.bucket('fridgecam-d029f.appspot.com');
+    const bucket = storage.bucket(process.env.GOOGLE_STORAGE_BUCKET);
 
-    const snapsRef = ref.child('snaps');
+    let uploadedFileUrl = '';
 
     // until we know how to upload a buffer directly to google cloud, we'll just write it to disk
-    // and upload it afterwards.
-    let uploadedFileUrl = '';
+    // upload it, and then delete the temporary file afterwards.
 
     fs.writeFile('temp.jpg', photo, 'binary', (err) => {
       if(err) {
@@ -66,10 +65,14 @@ app.get('/snap', (req, res) => {
           console.log("The file was saved!");
       }
 
-      bucket.upload('temp.jpg', { destination : filename }).then(function(file) {
+      bucket.upload('temp.jpg', { destination : filename }).then((file) => {
         let uploadedFile = file[0];
         
         uploadedFileUrl = uploadedFile.metadata.mediaLink;
+
+        const db = admin.database();
+        const ref = db.ref('/');
+        const snapsRef = ref.child('snaps');
 
         snapsRef.push({
           snapper: 'Brian Frisch',
@@ -100,6 +103,6 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
 });
