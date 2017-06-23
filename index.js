@@ -10,7 +10,7 @@ const fs = require('fs');
 
 let camera;
 
-if (process.env.APP_DEBUG !== 'true') {
+if (process.env.APP_DEBUG !== true) {
   const Raspistill = require('node-raspistill').Raspistill;
   camera = new Raspistill({
       verticalFlip: true,
